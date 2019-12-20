@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 class Timer extends Component {
 
     state = {
+        start:  null,
+        end:    null,
         current: {
             hour:   0,
             minute: 0,
@@ -11,11 +13,24 @@ class Timer extends Component {
         isrunning:  true,
 
         // duration in milli-seconds
-        duration:   3000
+        duration:   null
         
     }
 
     componentDidMount () {
+
+        let startDate = new Date();
+        let endDate = new Date(startDate.getTime());
+
+        if (this.state.duration) {
+            endDate.setMilliseconds(this.state.duration);
+        }
+
+        this.setState({
+            start:  startDate,
+            end:    endDate
+        });
+        
         this._startTimer();
     }
 

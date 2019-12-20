@@ -1,0 +1,20 @@
+.Container {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    justify-content: space-between;
+}
+
+.DisplayElement {
+    padding: 5px 5px;
+    box-sizing: border-box;
+    flex-grow: 1;
+}
+
+.Summary {
+    width: calc(66.6666% - 5px);
+    min-width: 350px;
+}
+
+.Status {
+    width: calc(33.3333% - 5px);
+}

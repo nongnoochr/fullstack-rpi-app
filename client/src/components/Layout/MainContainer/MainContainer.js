@@ -13,7 +13,7 @@ const mainContainer = (props) => {
     ));
 
     return (
-        <div className="container-fluid">
+        <div className={["container-fluid", classes.Container].join(' ')}>
             {contents}
         </div>
     );
