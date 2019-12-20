@@ -1,38 +1,74 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions/index';
 
 class Timer extends Component {
 
-    state = {
-        start:  null,
-        end:    null,
-        current: {
-            hour:   0,
-            minute: 0,
-            second: 0
-        },
-        isrunning:  true,
+    constructor(props) {
+        super(props);
 
-        // duration in milli-seconds
-        duration:   null
-        
+        let startDate = new Date();
+
+        // Don't call this.setState() here!
+        this.state = {
+            start:  startDate,
+            computedEnd:    null,
+            actualEnd:      null,
+            current: {
+                hour:   0,
+                minute: 0,
+                second: 0
+            },
+
+            timerstatus: false,
+    
+            // duration in milli-seconds
+            duration:   null
+            
+        }
     }
 
     componentDidMount () {
 
-        let startDate = new Date();
-        let endDate = new Date(startDate.getTime());
+        let endDate = null;
 
         if (this.state.duration) {
+            endDate = new Date(this.state.start.getTime());
             endDate.setMilliseconds(this.state.duration);
         }
 
         this.setState({
-            start:  startDate,
-            end:    endDate
+            computedEnd:        endDate
         });
         
-        this._startTimer();
     }
+
+    componentDidUpdate () {
+
+        // If the START button is clicked but the timer has not been started
+        if (this.props.isrunning && !this.state.timerstatus) {
+            // Start the timer
+            this._startTimer();
+
+            // and set the state of the timer to true
+            this.setState({
+                timerstatus: true
+            })
+        }
+
+        // If the STOP button is clicked while the timer is running
+        if (!this.props.isrunning && this.state.timerstatus) {
+
+            // reset the state of the timer
+            this.setState({
+                timerstatus: false
+            })
+        }
+
+
+    }
+
+    
 
     render () {
         return (
@@ -46,7 +82,7 @@ class Timer extends Component {
 
     _addSecond = () => {
         const updatedTime = {
-            ...this.state.current
+            ...this.props.current
         };
 
         // See
@@ -62,13 +98,14 @@ class Timer extends Component {
         }
 
         // Update time
-        this.setState( {current: updatedTime} );
+        this.props.onUpdateCounter(updatedTime);
     }
 
     _getTimerString = () => {
-        const hr = convertNumTimeToString(this.state.current.hour);
-        const min = convertNumTimeToString(this.state.current.minute);
-        const sec = convertNumTimeToString(this.state.current.second);
+        
+        const hr = convertNumTimeToString(this.props.current.hour);
+        const min = convertNumTimeToString(this.props.current.minute);
+        const sec = convertNumTimeToString(this.props.current.second);
         
         return hr + ':' + min + ':' + sec;
     }
@@ -78,16 +115,11 @@ class Timer extends Component {
         // https://stackoverflow.com/questions/14226803/wait-5-seconds-before-executing-next-line/28173606
 
         const addSecond = async () => {
-            
-            // If the duration is specified
-            if (this.state.duration) {
-                // Stop the timer once the duration is reached
-                setTimeout(() => this.setState({isrunning: false}), 
-                    this.state.duration);
-            }
-            
 
-            while (this.state.isrunning) {
+            // Reset the counter first before start
+            this.props.onResetCounter();
+            
+            while (this.props.isrunning) {
                 await delay(1000);
                 this._addSecond();
             }
@@ -98,7 +130,24 @@ class Timer extends Component {
     }
 }
 
-export default Timer;
+const mapStateToProps = state => {
+    return {
+        settings: state.timer,
+        current:    state.timer.current,
+        isrunning: state.timer.isrunning
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onUpdateSettings: (settings) => dispatch(actions.updateTimer(settings)),
+        onUpdateCounter: (data) => dispatch(actions.updateTimerCounter(data)),
+        onResetCounter: () => dispatch(actions.resetTimerCounter())
+    };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Timer);
 
 // --- Heler functions
 const delay = ms => new Promise(res => setTimeout(res, ms));

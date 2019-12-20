@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 
 const navBar = (props) => (
     <Navbar bg="dark" variant="dark" expand="lg">
-        <Navbar.Brand href="#home">RP machine</Navbar.Brand>
+        <Navbar.Brand href="#home">RPi machine</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">

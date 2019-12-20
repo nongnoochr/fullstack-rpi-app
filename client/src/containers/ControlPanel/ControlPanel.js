@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import ControlButton from '../../components/ControlButton/ControlButton';
 
 class ControlPanel extends Component {
 
@@ -10,7 +11,7 @@ class ControlPanel extends Component {
                     Configuration Panel
                 </div>
                 <div className="col-6">
-                    Start/Pause/Stop button
+                    <ControlButton />
                 </div>
             </div>
         );
