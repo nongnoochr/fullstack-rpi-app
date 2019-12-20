@@ -15,7 +15,7 @@ const summary = (props) => {
     };
 
     const settings = Object.keys(settingsData).map((key) => (
-        <Fragment>
+        <Fragment key={key}>
             <div className="col-5">
                 <label>{key}:</label>
             </div>

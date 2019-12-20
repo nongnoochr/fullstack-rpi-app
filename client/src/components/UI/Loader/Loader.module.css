@@ -1,0 +1,52 @@
+/* Loading animation
+See
+https://codepen.io/MarcusPop/pen/JWydEV
+*/
+
+.loading-animation-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 15vh;
+}
+
+@keyframes bounce {
+    25% {
+        transform: translateY(-25px);
+    }
+
+    75% {
+        transform: translateY(5px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+
+.loading-animation-container>.dot {
+    width: 15px;
+    height: 15px;
+    /*
+    background-color: rgba(251, 140, 0, 1); */
+    background-color: #009688;
+    margin: 0 10px 0 0;
+    border-radius: 50%;
+    animation-name: bounce;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.loading-animation-container>.dot:nth-child(2) {
+    animation-delay: .25s;
+}
+
+.loading-animation-container>.dot:nth-child(3) {
+    animation-delay: .51s;
+}
+
+.loading-animation-container>.dot:nth-of-type(2n) {
+    background-color: #ad1457;
+}

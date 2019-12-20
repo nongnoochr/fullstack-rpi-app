@@ -1,14 +1,21 @@
 import React, {Fragment} from 'react';
 import classes from './Status.module.css';
+import Loader from '../UI/Loader/Loader';
+import Timer from '../Timer/Timer';
+
+import ProgressBar from 'react-bootstrap/ProgressBar';
 import { FiPower } from "react-icons/fi";
 
 
 const status = (props) => {
 
-    let curStatus = 'initialize';
+    // <#TODO> To be updated to use props
+    let curStatus = 'running';
+    let curProgress = 100;
+
     let statusData = {
         className: '',
-        content: null
+        content: null,
     };
     
     switch (curStatus) {
@@ -24,14 +31,22 @@ const status = (props) => {
 
         case 'initialize':
             statusData = {
-                className: classes.Initialize,
+                className: classes.Initializing,
                 content: (<Fragment>
                     <div className={classes.StatusText}>Initializing</div>
-                    <div className={classes.Loading}></div>
-                    <div className={classes['loading-animation-container']}>
-                        <div className={classes.dot}></div>
-                        <div className={classes.dot}></div>
-                        <div className={classes.dot}></div>
+                    <Loader />                    
+                </Fragment>) 
+            }
+            break;
+
+        case 'running':
+            statusData = {
+                className: classes.Running,
+                content: (<Fragment>
+                    <div className={classes.StatusText}>Running</div>
+                    <Timer />
+                    <div className={classes.ProgressBarContainer}>
+                        <ProgressBar animated now={curProgress} />
                     </div>
                 </Fragment>) 
             }
