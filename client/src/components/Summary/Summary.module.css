@@ -1,0 +1,12 @@
+.AlertContents {
+    display: flex;
+    justify-content: center;
+}
+
+.AlertContents div {
+    margin: 0 10px;
+}
+
+.Summary label {
+    font-weight: bold;
+}
