@@ -5,13 +5,35 @@ import Alert from 'react-bootstrap/Alert'
 
 import { WiRaindrop, WiThermometer } from "react-icons/wi";
 
+import { 
+    convertDurationDataToMilliSecs,
+    getDurationData, 
+    getDurationString,
+    getTimerString 
+} from '../../utils/TimeUtils';
 
 const summary = (props) => {
+
+    let durationStr;
+    if (props.data.duration) {
+        durationStr = getDurationString(props.data.duration);
+    } else {
+        durationStr = 'N/A';
+    }
+
+
+    let lastRunTimeStr;
+    if (props.data.lastActualDuration) {
+        lastRunTimeStr = getDurationString(props.data.lastActualDuration);
+    } else {
+        lastRunTimeStr = 'N/A';
+    }
 
     const settingsData = {
         'External Controller':  'Enabled',
         'Settings':             'LED1 + LED2',
-        'Duration':             '10 mins'
+        'Duration':             durationStr,
+        'Last RunTime Duration':    lastRunTimeStr 
     };
 
     const settings = Object.keys(settingsData).map((key) => (

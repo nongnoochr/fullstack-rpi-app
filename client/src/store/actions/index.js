@@ -1,5 +1,3 @@
 export {
-    toggleStatus,
-    updateTimer,
-    resetTimerCounter
+    toggleStatus
 } from './timer';

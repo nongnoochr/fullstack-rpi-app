@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import Settings from '../../components/Settings/Settings';
 import ControlButton from '../../components/ControlButton/ControlButton';
 
 class ControlPanel extends Component {
@@ -8,7 +9,7 @@ class ControlPanel extends Component {
         return (
             <div className="row">
                 <div className="col-6">
-                    Configuration Panel
+                    <Settings />
                 </div>
                 <div className="col-6">
                     <ControlButton />

@@ -60,7 +60,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onToggleStatus: (settings) => dispatch(actions.toggleStatus())
+        onToggleStatus: () => dispatch(actions.toggleStatus())
     };
 };
 

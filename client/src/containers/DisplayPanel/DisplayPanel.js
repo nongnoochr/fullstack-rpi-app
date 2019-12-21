@@ -5,46 +5,35 @@ import Summary from '../../components/Summary/Summary';
 import Status from '../../components/Status/Status';
 
 import { connect } from 'react-redux';
+import * as actions from '../../store/actions/index';
+
+import { INIT_TIMER_DATA, updateDurationTime } from '../../utils/TimeUtils';
 
 class DisplayPanel extends Component {
 
     constructor(props) {
         super(props);
 
-        let startDate = new Date();
-
         this.state = {
-            start:  startDate,
+            start:  null,
             computedEnd:    null,
             actualEnd:      null,
             current: {
-                hour:   0,
-                minute: 0,
-                second: 0
+                ...INIT_TIMER_DATA
             },
 
             timerstatus: false,
     
             // duration in milli-seconds
-            duration:   null
+            duration:   5000,
+            lastActualDuration: null
             
         }
         
     }
 
     componentDidMount () {
-
-        let endDate = null;
-
-        if (this.state.duration) {
-            endDate = new Date(this.state.start.getTime());
-            endDate.setMilliseconds(this.state.duration);
-        }
-
-        this.setState({
-            computedEnd:        endDate
-        });
-        
+        this._initData();
     }
 
     componentDidUpdate () {
@@ -64,48 +53,69 @@ class DisplayPanel extends Component {
         if (!this.props.isrunning && this.state.timerstatus) {
 
             // reset the state of the timer
+
+            const actualEnd = new Date();
+            const diff = (actualEnd - this.state.start);
+
             this.setState({
-                timerstatus: false
-            })
+                actualEnd:          actualEnd,
+                lastActualDuration: diff,
+                timerstatus:        false
+            });
+
+            
         }
-
-
     }
 
     render () {
+        const duration = this.state.duration;
+
         const status = this.props.isrunning ?
             'running' : 'standby';
 
         return (
             <div className={classes.Container}>
                 <div className={[classes.Summary, classes.DisplayElement].join(' ')}>
-                    <Summary />
+                    <Summary data={ {
+                        duration: duration,
+                        lastActualDuration: this.state.lastActualDuration 
+                        }} />
                 </div>
                 <div className={[classes.Status, classes.DisplayElement].join(' ')}>
-                    <Status state={status} data={this.state.current} />
+                    <Status state={status} data={
+                        { 
+                            current: this.state.current,
+                            duration: duration
+                        }
+                    } />
                 </div>
             </div>
         );
     }
 
     // --- Private methods
+    _initData = () => {
+
+        let startDate = new Date();
+        let endDate = null;
+
+        if (this.state.duration) {
+            endDate = new Date(startDate.getTime());
+            endDate.setMilliseconds(this.state.duration);
+        }
+
+        this.setState({
+            start:              startDate,
+            computedEnd:        endDate,
+            current:    {
+                ...INIT_TIMER_DATA
+            }
+        });
+    }
 
     _addMilliSecond = (ms) => {
-        const updatedTime = {
-            ...this.state.current
-        };
 
-        // See
-        // https://jsfiddle.net/Daniel_Hug/pvk6p/
-        updatedTime.second = updatedTime.second + ms/1000;
-        if (updatedTime.second >= 60) {
-            updatedTime.second = 0;
-            updatedTime.minute = updatedTime.minute + 1;
-            if (updatedTime.minute >= 60) {
-                updatedTime.minute = 0;
-                updatedTime.hour = updatedTime.hour + 1;
-            }
-        }
+        const updatedTime = updateDurationTime(this.state.current, ms);
 
         // Update time
         this.setState({current: updatedTime});
@@ -118,13 +128,22 @@ class DisplayPanel extends Component {
         const addMilliSecond = async () => {
 
             // Reset the counter first before start
-            this.setState({current: {
-                hour:   0,
-                minute: 0,
-                second: 0
-            }})
+            this._initData();
             
             while (this.props.isrunning) {
+
+                // Check whether the current time exceeds the duration
+                if (this.state.duration) {
+                    const deltaTime = new Date() - this.state.start;
+
+                    if (deltaTime >= this.state.duration) {
+                        this.props.onToggleStatus();
+                        break;
+                    }
+                }
+                
+                
+
                 await delay(250);
                 this._addMilliSecond(250);
             }
@@ -142,8 +161,13 @@ const mapStateToProps = state => {
 };
 
 
+const mapDispatchToProps = dispatch => {
+    return {
+        onToggleStatus: () => dispatch(actions.toggleStatus())
+    };
+};
 
-export default connect(mapStateToProps)(DisplayPanel);
+export default connect(mapStateToProps, mapDispatchToProps)(DisplayPanel);
 
 
 // --- Heler functions

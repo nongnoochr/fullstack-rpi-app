@@ -9,6 +9,8 @@ import Timer from '../Timer/Timer';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import { FiPower } from "react-icons/fi";
 
+import { convertDurationDataToMilliSecs } from '../../utils/TimeUtils';
+
 class Status extends Component {
 
     // componentDidUpdate () {
@@ -28,9 +30,6 @@ class Status extends Component {
     // }
 
     render () {
-        // <#TODO> To be updated to use props
-        // const curStatus = this.state.status;
-        let curProgress = 100;
 
         let statusData = {
             className: '',
@@ -62,9 +61,21 @@ class Status extends Component {
                 const timerData = {
                     isrunning:  this.props.isrunning,
                     current:    {
-                        ...this.props.data
+                        ...this.props.data.current
                     }
                 };
+
+                let curProgress, curLabel;
+                if (this.props.data.duration) {
+                    const msCurrent = convertDurationDataToMilliSecs(this.props.data.current) * 1000;
+                    curProgress = Math.ceil((msCurrent / this.props.data.duration) * 100);
+                    curLabel = `${curProgress}%`;
+
+                } else {
+                    curProgress = 100;
+                    curLabel = 'In progress...';
+                }
+                
 
                 statusData = {
                     className: classes.Running,
@@ -72,7 +83,10 @@ class Status extends Component {
                         <div className={classes.StatusText}>Running</div>
                         <Timer data={timerData} />
                         <div className={classes.ProgressBarContainer}>
-                            <ProgressBar animated now={curProgress} />
+                            <ProgressBar animated 
+                                now={curProgress} 
+                                label={curLabel}
+                                />
                         </div>
                     </Fragment>) 
                 }

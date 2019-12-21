@@ -3,11 +3,9 @@ import { updateObject } from '../utility';
 
 
 const TIMER_SETTINGS = {
-    start:          null,
-    computedEnd:    null,
-    actualEnd:      null,
-    isrunning:  false,
 
+    isrunning:  false,
+    
     // duration in milli-seconds
     duration:   null
 };
@@ -24,27 +22,14 @@ const toggleStatus = (state, action) => {
     });
 };
 
-const updateTimer = ( state, action ) => {
-
-    const updatedSettings = {
-        ...state
-    };
-
-    return updateObject( state, {
-        settings: updatedSettings
-    });
-
-}
 
 // --------------------
 const reducer = ( state = initTimerData, action ) => {
     switch ( action.type ) {
         case actionTypes.TOGGLE_STATUS: 
             return toggleStatus( state, action );
-        case actionTypes.UPDATE_TIMER: 
-            return updateTimer( state, action );
 
-        default: return state;
+            default: return state;
     }
 };
 
