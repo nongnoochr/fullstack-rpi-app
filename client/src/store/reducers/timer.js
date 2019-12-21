@@ -6,11 +6,6 @@ const TIMER_SETTINGS = {
     start:          null,
     computedEnd:    null,
     actualEnd:      null,
-    current: {
-        hour:   0,
-        minute: 0,
-        second: 0
-    },
     isrunning:  false,
 
     // duration in milli-seconds
@@ -32,10 +27,7 @@ const toggleStatus = (state, action) => {
 const updateTimer = ( state, action ) => {
 
     const updatedSettings = {
-        ...state,
-        current: {
-            ...state.current
-        }
+        ...state
     };
 
     return updateObject( state, {
@@ -44,27 +36,6 @@ const updateTimer = ( state, action ) => {
 
 }
 
-const updateTimerCounter = ( state, action ) => {
-    const newData = {
-        ...action.data
-    };
-
-    return updateObject( state, {
-        current: newData
-    });
-};
-
-const resetTimerCounter = ( state, action ) => {
-    const newData = {
-        ...TIMER_SETTINGS.current
-    };
-
-    return updateObject( state, {
-        current: newData
-    });
-
-};
-
 // --------------------
 const reducer = ( state = initTimerData, action ) => {
     switch ( action.type ) {
@@ -72,10 +43,6 @@ const reducer = ( state = initTimerData, action ) => {
             return toggleStatus( state, action );
         case actionTypes.UPDATE_TIMER: 
             return updateTimer( state, action );
-        case actionTypes.UPDATE_TIMERCOUNTER: 
-            return updateTimerCounter( state, action );
-        case actionTypes.RESET_TIMERCOUNTER:
-            return resetTimerCounter( state, action );
 
         default: return state;
     }

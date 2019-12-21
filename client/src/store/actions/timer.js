@@ -7,13 +7,6 @@ export const updateTimer = ( data ) => {
     };
 };
 
-export const updateTimerCounter = ( data ) => {
-    return {
-        type: actionTypes.UPDATE_TIMERCOUNTER,
-        data: data
-    };
-};
-
 export const resetTimerCounter = () => {
     return {
         type: actionTypes.RESET_TIMERCOUNTER
