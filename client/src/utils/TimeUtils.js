@@ -11,7 +11,7 @@ export const getDurationData = (ms) => {
     return updateDurationTime(INIT_TIMER_DATA, ms);
 }
 
-export const convertDurationDataToMilliSecs = (data) => {
+export const convertDurationDataToSeconds = (data) => {
     const ms = 3600*data.hour
         + 60*data.minute
         + data.second;
@@ -25,7 +25,7 @@ export const updateDurationTime = (origDurationData, ms) => {
     // See
     // https://jsfiddle.net/Daniel_Hug/pvk6p/
 
-    const origDurationSecs = convertDurationDataToMilliSecs(origDurationData);
+    const origDurationSecs = convertDurationDataToSeconds(origDurationData);
 
     const newRawSecs = origDurationSecs + ms/1000;
     const newTimeSecs = newRawSecs % 60;
@@ -34,16 +34,6 @@ export const updateDurationTime = (origDurationData, ms) => {
     const newTimeMins = newRawMins % 60;
 
     const newTimeHrs = Math.floor(newRawMins / 60);
-
-    // updatedTime.second = updatedTime.second + ;
-    // if (updatedTime.second >= 60) {
-    //     updatedTime.second = 0;
-    //     updatedTime.minute = updatedTime.minute + 1;
-    //     if (updatedTime.minute >= 60) {
-    //         updatedTime.minute = 0;
-    //         updatedTime.hour = updatedTime.hour + 1;
-    //     }
-    // }
 
     return {
         hour:   newTimeHrs,

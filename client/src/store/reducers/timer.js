@@ -7,7 +7,7 @@ const TIMER_SETTINGS = {
     isrunning:  false,
     
     // duration in milli-seconds
-    duration:   null
+    duration:   0
 };
 
 const initTimerData = {

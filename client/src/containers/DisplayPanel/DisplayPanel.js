@@ -7,7 +7,13 @@ import Status from '../../components/Status/Status';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 
-import { INIT_TIMER_DATA, updateDurationTime } from '../../utils/TimeUtils';
+import { 
+    INIT_TIMER_DATA, 
+    convertDurationDataToSeconds,
+    updateDurationTime 
+} from '../../utils/TimeUtils';
+
+import Card from 'react-bootstrap/Card';
 
 class DisplayPanel extends Component {
 
@@ -25,7 +31,6 @@ class DisplayPanel extends Component {
             timerstatus: false,
     
             // duration in milli-seconds
-            duration:   5000,
             lastActualDuration: null
             
         }
@@ -63,32 +68,46 @@ class DisplayPanel extends Component {
                 timerstatus:        false
             });
 
-            
         }
     }
 
     render () {
-        const duration = this.state.duration;
+        const duration = this.props.duration;
 
         const status = this.props.isrunning ?
             'running' : 'standby';
 
         return (
             <div className={classes.Container}>
-                <div className={[classes.Summary, classes.DisplayElement].join(' ')}>
-                    <Summary data={ {
-                        duration: duration,
-                        lastActualDuration: this.state.lastActualDuration 
-                        }} />
+                <div className={[classes.DisplayElement, classes.Summary].join(' ')}>
+                    <Card>
+                        <Card.Body>
+                            <Summary data={ {
+                                duration: duration,
+                                lastActualDuration: this.state.lastActualDuration 
+                                }} />
+                        </Card.Body>
+                    </Card>
                 </div>
-                <div className={[classes.Status, classes.DisplayElement].join(' ')}>
-                    <Status state={status} data={
-                        { 
-                            current: this.state.current,
-                            duration: duration
-                        }
-                    } />
+                
+                <div className={[classes.DisplayElement, classes.Status].join(' ')}>
+                    <Card className="text-center"
+                        style={{height: '100%'}}>
+                        <Card.Header><strong>STATUS</strong></Card.Header>
+                        <Card.Body>
+                                <Status state={status} data={
+                                    { 
+                                        current: this.state.current,
+                                        duration: duration
+                                    }
+                                } />
+                        </Card.Body>
+
+                    </Card>
+
                 </div>
+                
+                
             </div>
         );
     }
@@ -98,10 +117,10 @@ class DisplayPanel extends Component {
 
         let startDate = new Date();
         let endDate = null;
-
-        if (this.state.duration) {
+        
+        if (this.props.duration) {
             endDate = new Date(startDate.getTime());
-            endDate.setMilliseconds(this.state.duration);
+            endDate.setMilliseconds(this.props.duration);
         }
 
         this.setState({
@@ -133,17 +152,16 @@ class DisplayPanel extends Component {
             while (this.props.isrunning) {
 
                 // Check whether the current time exceeds the duration
-                if (this.state.duration) {
-                    const deltaTime = new Date() - this.state.start;
+                if (this.props.duration) {
 
-                    if (deltaTime >= this.state.duration) {
+                    const deltaTime = convertDurationDataToSeconds(this.state.current) * 1000;
+
+                    if (deltaTime >= this.props.duration) {
                         this.props.onToggleStatus();
                         break;
                     }
                 }
                 
-                
-
                 await delay(250);
                 this._addMilliSecond(250);
             }
@@ -156,7 +174,8 @@ class DisplayPanel extends Component {
 
 const mapStateToProps = state => {
     return {
-        isrunning: state.timer.isrunning
+        isrunning:  state.timer.isrunning,
+        duration:   state.settings.duration
     };
 };
 

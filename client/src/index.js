@@ -11,15 +11,14 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from'redux-thunk';
 
 import timerReducer from './store/reducers/timer';
-
+import settingsReducer from './store/reducers/settings';
 
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
     timer: timerReducer,
-    // order: orderReducer,
-    // auth: authReducer
+    settings: settingsReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers(

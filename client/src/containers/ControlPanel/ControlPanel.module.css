@@ -1,0 +1,20 @@
+.Container {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    justify-content: space-between;
+}
+
+.DisplayElement {
+    box-sizing: border-box;
+    flex-grow: 1;
+}
+
+.Settings {
+    width: calc(50% - 5px);
+    min-width: 350px;
+}
+
+.ControlButton {
+    width: calc(50% - 5px);
+    margin-left: 5px;
+}

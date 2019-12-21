@@ -1,1 +1,4 @@
 export const TOGGLE_STATUS = 'TOGGLE_STATUS';
+
+export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
+export const RESET_SETTINGS = 'RESET_SETTINGS';

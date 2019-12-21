@@ -1,68 +1,84 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, Component} from 'react';
 import classes from './Summary.module.css';
+
+import { connect } from 'react-redux';
 
 import Alert from 'react-bootstrap/Alert'
 
 import { WiRaindrop, WiThermometer } from "react-icons/wi";
 
 import { 
-    convertDurationDataToMilliSecs,
-    getDurationData, 
-    getDurationString,
-    getTimerString 
+    getDurationString
 } from '../../utils/TimeUtils';
 
-const summary = (props) => {
+import { SETTINGS_LABEL } from '../../utils/SettingsUtils';
 
-    let durationStr;
-    if (props.data.duration) {
-        durationStr = getDurationString(props.data.duration);
-    } else {
-        durationStr = 'N/A';
-    }
+class Summary extends Component {
+    render () {
+        let durationStr;
+        if (this.props.data.duration) {
+            durationStr = getDurationString(this.props.data.duration);
+        } else {
+            durationStr = 'N/A';
+        }
 
-
-    let lastRunTimeStr;
-    if (props.data.lastActualDuration) {
-        lastRunTimeStr = getDurationString(props.data.lastActualDuration);
-    } else {
-        lastRunTimeStr = 'N/A';
-    }
-
-    const settingsData = {
-        'External Controller':  'Enabled',
-        'Settings':             'LED1 + LED2',
-        'Duration':             durationStr,
-        'Last RunTime Duration':    lastRunTimeStr 
-    };
-
-    const settings = Object.keys(settingsData).map((key) => (
-        <Fragment key={key}>
-            <div className="col-5">
-                <label>{key}</label>
-            </div>
-            <div className="col-7">
-                {settingsData[key]}
-            </div>
-        </Fragment>
+        let settingsStr;
+        if (this.props.settings.settings.length > 0) {
+            settingsStr = this.props.settings.settings.join('+');
+        } else {
+            settingsStr = 'None'
+        }
         
-    ));
 
-    return (
-        <div className={["box-border", classes.Summary].join(' ')}>
-            <Alert 
-                variant="primary"
-                className={classes.AlertContents}
-                >
-                <div><WiThermometer /><label>Temperature:</label> 20 <span>&#8451;</span></div>
-                <div><WiRaindrop /><label>Humidity:</label> 5%</div>
-            </Alert>
+        let lastRunTimeStr;
+        if (this.props.data.lastActualDuration) {
+            lastRunTimeStr = getDurationString(this.props.data.lastActualDuration);
+        } else {
+            lastRunTimeStr = 'N/A';
+        }
 
-            <div className="row">
-                {settings}
+        const settingsData = {
+            [SETTINGS_LABEL.externalCtrl]:  this.props.settings.externalCtrl ? 'Enabled' : 'Disabled',
+            [SETTINGS_LABEL.settings]:      settingsStr,
+            [SETTINGS_LABEL.duration]:      durationStr,
+            'Last RunTime Duration':        lastRunTimeStr 
+        };
+
+        const settings = Object.keys(settingsData).map((key) => (
+            <Fragment key={key}>
+                <div className="col-5">
+                    <label>{key}</label>
+                </div>
+                <div className="col-7">
+                    {settingsData[key]}
+                </div>
+            </Fragment>
+            
+        ));
+
+        return (
+            <div className={classes.Summary}>
+                <Alert 
+                    variant="primary"
+                    className={classes.AlertContents}
+                    >
+                    <div><WiThermometer /><label>Temperature:</label> 20 <span>&#8451;</span></div>
+                    <div><WiRaindrop /><label>Humidity:</label> 5%</div>
+                </Alert>
+
+                <div className="row">
+                    {settings}
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
+}
+
+
+const mapStateToProps = state => {
+    return {
+        settings: state.settings
+    };
 };
 
-export default summary;
+export default connect(mapStateToProps)(Summary);

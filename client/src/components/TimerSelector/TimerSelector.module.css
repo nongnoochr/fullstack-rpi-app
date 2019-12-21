@@ -1,0 +1,7 @@
+.TimerSelector {
+    display: flex;
+}
+
+.TimerSelector>div {
+    margin-right: 0.5em;
+}

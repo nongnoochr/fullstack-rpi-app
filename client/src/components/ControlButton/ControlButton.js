@@ -37,6 +37,7 @@ class ControlButton extends Component {
                 <button 
                     type="button" 
                     className={btnConfig.className}
+                    style={{height: '100%'}}
                     onClick={() => this.props.onToggleStatus()}
                     >
                         <div>

@@ -9,25 +9,10 @@ import Timer from '../Timer/Timer';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import { FiPower } from "react-icons/fi";
 
-import { convertDurationDataToMilliSecs } from '../../utils/TimeUtils';
+import { convertDurationDataToSeconds } from '../../utils/TimeUtils';
 
 class Status extends Component {
 
-    // componentDidUpdate () {
-        
-    //     if (this.props.isrunning && (this.state.status !== 'running')) {
-    //         this.setState({
-    //             status: 'running'
-    //         });
-    //     } 
-        
-    //     if (!this.props.isrunning && (this.state.status !== 'standby')) {
-    //         this.setState({
-    //             status: 'standby'
-    //         });
-    //     }
-
-    // }
 
     render () {
 
@@ -67,7 +52,7 @@ class Status extends Component {
 
                 let curProgress, curLabel;
                 if (this.props.data.duration) {
-                    const msCurrent = convertDurationDataToMilliSecs(this.props.data.current) * 1000;
+                    const msCurrent = convertDurationDataToSeconds(this.props.data.current) * 1000;
                     curProgress = Math.ceil((msCurrent / this.props.data.duration) * 100);
                     curLabel = `${curProgress}%`;
 
