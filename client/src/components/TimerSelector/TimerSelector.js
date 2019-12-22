@@ -36,7 +36,8 @@ class TimerSelector extends Component {
                         name="hour" 
                         min="0" 
                         max="999"
-                        value={this.props.hour}
+                        step="1"
+                        defaultValue={this.props.hour}
                         disabled={this.props.disabled}
                         onChange={(ev) => this.updatePropValue(ev, 'hour')} /> Hours 
                 </div>
@@ -46,7 +47,8 @@ class TimerSelector extends Component {
                         name="minute" 
                         min="0" 
                         max="60" 
-                        value={this.props.minute}
+                        step="1"
+                        defaultValue={this.props.minute}
                         disabled={this.props.disabled}
                         onChange={(ev) => this.updatePropValue(ev, 'minute')} /> Minutes 
                 </div>
@@ -55,8 +57,9 @@ class TimerSelector extends Component {
                         type="number" 
                         name="second" 
                         min="0" 
-                        max="60" 
-                        value={this.props.second}
+                        max="60"
+                        step="1" 
+                        defaultValue={this.props.second}
                         disabled={this.props.disabled}
                         onChange={(ev) => this.updatePropValue(ev, 'second')} /> Seconds 
                 </div>
