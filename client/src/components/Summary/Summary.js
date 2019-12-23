@@ -14,6 +14,41 @@ import {
 import { SETTINGS_LABEL } from '../../utils/SettingsUtils';
 
 class Summary extends Component {
+
+    getTemperatureData = () => {
+            
+        if (this.props.data.sensors.temperature) {
+            return (
+                <span>
+                    <span>
+                        { this.props.data.sensors.temperature.toFixed(1) }
+                    </span>
+                    <span>&#8451;</span>
+                </span>
+                );
+        } else {
+            return 'N/A';
+        }
+            
+    }
+
+    getHumidityData = () => {
+            
+        if (this.props.data.sensors.humidity) {
+            return (
+                <span>
+                    <span>
+                        { this.props.data.sensors.humidity.toFixed(1) }
+                    </span>
+                    <span>%</span>
+                </span>
+                );
+        } else {
+            return 'N/A';
+        }
+            
+    }
+
     render () {
         let durationStr;
         if (this.props.data.duration) {
@@ -62,8 +97,17 @@ class Summary extends Component {
                     variant="primary"
                     className={classes.AlertContents}
                     >
-                    <div><WiThermometer /><label>Temperature:</label> 20 <span>&#8451;</span></div>
-                    <div><WiRaindrop /><label>Humidity:</label> 5%</div>
+                    <div>
+                        <WiThermometer />
+                        <label>Temperature:</label> 
+                        {this.getTemperatureData()}
+                        
+                    </div>
+                    <div>
+                        <WiRaindrop />
+                        <label>Humidity:</label> 
+                        {this.getHumidityData()}
+                    </div>
                 </Alert>
 
                 <div className="row">

@@ -33,111 +33,120 @@ class Settings extends Component {
     render () {
         return (
             <div className={classes.Settings}>
+                <div>
+
                 <Form>
-                    <fieldset>
-                    <legend>
-                        <MdSettings />
-                        Configurations
-                    </legend>
 
-                        <Form.Group as={Row} controlId="externalCtrlForm">
-                            <Form.Label 
-                                className={classes.Label}
-                                column sm={6}>
-                                {SETTINGS_LABEL.externalCtrl}
-                            </Form.Label>
-                            <Col sm={6}>
-                                    
-                                    <Form.Check 
-                                            type="switch"
-                                            id="switch-ext-ctrl"
-                                            label="" 
-                                            checked={this.props.settings.externalCtrl}
-                                            disabled={this.props.isrunning}
-                                            onChange={ (ev) => {
+                    <Form.Group as={Row} controlId="externalCtrlForm">
+                        <Form.Label 
+                            className={classes.Label}
+                            column sm={6}>
+                            Turn on {SETTINGS_LABEL.externalCtrl}
+                        </Form.Label>
+                        <Col sm={6}>
+                                
+                                <Form.Check 
+                                        type="switch"
+                                        id="switch-ext-ctrl"
+                                        label="" 
+                                        checked={this.props.settings.externalCtrl}
+                                        disabled={this.props.isrunning}
+                                        onChange={ (ev) => {
 
-                                                const newVal = ev.target.checked;
-                                                this.props.onUpdateSettings({
-                                                    externalCtrl: newVal
-                                                });
-                                            } }
-                                        />
-                            </Col>
-                        </Form.Group>
-                        
-                        <Form.Group as={Row} controlId="settingsForm">
-                            <Form.Label 
-                                className={classes.Label}
-                                column sm={6}>
-                                {SETTINGS_LABEL.settings}
-                            </Form.Label>
-                            <Col sm={6}>
-                            <ButtonToolbar>
-                                <ToggleButtonGroup 
-                                    type="checkbox" 
-                                    value={this.props.settings.settings}
-                                    onChange={(settings) => {
-                                        this.props.onUpdateSettings({
-                                            settings: settings
-                                        });
-                                    }}
+                                            const newVal = ev.target.checked;
+                                            this.props.onUpdateSettings({
+                                                externalCtrl: newVal
+                                            });
+                                        } }
+                                    />
+                        </Col>
+                    </Form.Group>
+
+                    </Form>
+
+                </div>
+                <div>
+                    <Form>
+                        <fieldset>
+                        <legend>
+                            <MdSettings />
+                            Configurations
+                        </legend>
+
+                            <Form.Group as={Row} controlId="settingsForm">
+                                <Form.Label 
+                                    className={classes.Label}
+                                    column sm={6}>
+                                    {SETTINGS_LABEL.settings}
+                                </Form.Label>
+                                <Col sm={6}>
+                                <ButtonToolbar>
+                                    <ToggleButtonGroup 
+                                        type="checkbox" 
+                                        value={this.props.settings.settings}
+                                        onChange={(settings) => {
+                                            this.props.onUpdateSettings({
+                                                settings: settings
+                                            });
+                                        }}
+                                        >
+                                            <ToggleButton 
+                                                value={SETTINGS_VALUES.setting1}
+                                                variant="outline-primary" 
+                                                disabled={this.props.isrunning}>
+                                                    {SETTINGS_VALUES.setting1}
+                                            </ToggleButton>
+                                            <ToggleButton 
+                                                value={SETTINGS_VALUES.setting2}
+                                                variant="outline-primary" 
+                                                disabled={this.props.isrunning}>
+                                                    {SETTINGS_VALUES.setting2}
+                                            </ToggleButton>
+                                    </ToggleButtonGroup>
+                                </ButtonToolbar>
+                                </Col>
+                            </Form.Group>
+                            
+                            <Form.Group as={Row} controlId="durationForm">
+                                <Form.Label 
+                                    className={classes.Label}
+                                    column sm={6}>
+                                    {SETTINGS_LABEL.duration}
+                                </Form.Label>
+                                <Col sm={6}>
+                                        
+                                        <Form.Check 
+                                                type="switch"
+                                                id="switch-duration"
+                                                label=""
+                                                checked={this.state.showTimer}
+                                                disabled={this.props.isrunning}
+                                                onChange={(ev) => {
+                                                    this.setState({showTimer: ev.target.checked})
+                                                }}
+                                            />
+                                </Col>
+                                <div 
+                                    style={{ display: this.state.showTimer ? null : "none" }}
+                                    className={classes.TimeSelectorContainer}
                                     >
-                                        <ToggleButton 
-                                            value={SETTINGS_VALUES.setting1}
-                                            variant="outline-primary" 
-                                            disabled={this.props.isrunning}>
-                                                {SETTINGS_VALUES.setting1}
-                                        </ToggleButton>
-                                        <ToggleButton 
-                                            value={SETTINGS_VALUES.setting2}
-                                            variant="outline-primary" 
-                                            disabled={this.props.isrunning}>
-                                                {SETTINGS_VALUES.setting2}
-                                        </ToggleButton>
-                                </ToggleButtonGroup>
-                            </ButtonToolbar>
-                            </Col>
-                        </Form.Group>
-                        
-                        <Form.Group as={Row} controlId="durationForm">
-                            <Form.Label 
-                                className={classes.Label}
-                                column sm={6}>
-                                {SETTINGS_LABEL.duration}
-                            </Form.Label>
-                            <Col sm={6}>
-                                    
-                                    <Form.Check 
-                                            type="switch"
-                                            id="switch-duration"
-                                            label=""
-                                            checked={this.state.showTimer}
-                                            disabled={this.props.isrunning}
-                                            onChange={(ev) => {
-                                                this.setState({showTimer: ev.target.checked})
-                                            }}
-                                        />
-                            </Col>
-                            <div 
-                                style={{ display: this.state.showTimer ? null : "none" }}
-                                className={classes.TimeSelectorContainer}
-                                >
-                                <TimerSelector disabled={this.props.isrunning} />
-                            </div>
-                        </Form.Group>
+                                    <TimerSelector disabled={this.props.isrunning} />
+                                </div>
+                            </Form.Group>
 
-                        <Button 
-                            variant="outline-info"
-                            onClick={() => {
-                                this.props.onResetSettings();
-                                this.setState({
-                                    showTimer: false
-                                })
-                            }}
-                            >RESET</Button>
+                            <Button 
+                                variant="outline-info"
+                                onClick={() => {
+                                    this.props.onResetSettings();
+                                    this.setState({
+                                        showTimer: false
+                                    })
+                                }}
+                                >RESET</Button>
 
-                    </fieldset>
-                </Form>
+                        </fieldset>
+                    </Form>
+                </div>
             </div>
             
         );

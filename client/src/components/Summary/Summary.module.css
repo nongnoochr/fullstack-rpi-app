@@ -9,5 +9,6 @@
 }
 
 .Summary label {
+    margin-right: 0.25em;
     font-weight: bold;
 }

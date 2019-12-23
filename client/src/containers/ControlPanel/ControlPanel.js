@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as actions from '../../store/actions/index';
 
 import classes from './ControlPanel.module.css';
 
 import Settings from '../../components/Settings/Settings';
 import ControlButton from '../../components/ControlButton/ControlButton';
 import Card from 'react-bootstrap/Card';
+import { APPSTATE } from '../../services/CONSTANT';
 
 class ControlPanel extends Component {
 
@@ -27,7 +29,12 @@ class ControlPanel extends Component {
                             
                         </div>
                         <div className={[classes.ControlButton, classes.DisplayElement].join(' ')}>
-                            <ControlButton/>
+                            <ControlButton 
+                                // clicked={this.props.onToggleStatus} 
+                                state={!this.props.isrunning ? 'start' : 'stop'} 
+                                clicked={!this.props.isrunning ? this.props.onClickStart : this.props.onClickStop}
+                                disabled={this.props.appstatus===APPSTATE.INITIALIZING}
+                                />
                         </div>
                 </div>
 
@@ -41,8 +48,16 @@ class ControlPanel extends Component {
 
 const mapStateToProps = state => {
     return {
-        isrunning: state.timer.isrunning
+        isrunning: state.timer.isrunning,
+        appstatus: state.timer.status
     };
 };
 
-export default connect(mapStateToProps)(ControlPanel);
+const mapDispatchToProps = dispatch => {
+    return {
+        onClickStart:   () => dispatch(actions.runEntireProcess()),
+        onClickStop:   () => dispatch(actions.stopProcess())
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ControlPanel);

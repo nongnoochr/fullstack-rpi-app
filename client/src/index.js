@@ -12,13 +12,14 @@ import thunk from'redux-thunk';
 
 import timerReducer from './store/reducers/timer';
 import settingsReducer from './store/reducers/settings';
-
+import sensorsReducer from './store/reducers/sensors';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
-    timer: timerReducer,
-    settings: settingsReducer
+    timer:      timerReducer,
+    settings:   settingsReducer,
+    sensors:    sensorsReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers(

@@ -1,7 +1,7 @@
 export const SETTINGS_LABEL = {
     externalCtrl:   'External Controller',
     settings:       'Settings',
-    duration:       'Duration',
+    duration:       'Timer',
 };
 
 export const SETTINGS_VALUES = {

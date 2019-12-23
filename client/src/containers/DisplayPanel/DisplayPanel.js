@@ -9,6 +9,7 @@ import * as actions from '../../store/actions/index';
 
 import { 
     INIT_TIMER_DATA, 
+    delay,
     convertDurationDataToSeconds,
     updateDurationTime 
 } from '../../utils/TimeUtils';
@@ -73,9 +74,7 @@ class DisplayPanel extends Component {
 
     render () {
         const duration = this.props.duration;
-
-        const status = this.props.isrunning ?
-            'running' : 'standby';
+        const status = this.props.status;
 
         return (
             <div className={classes.Container}>
@@ -83,6 +82,9 @@ class DisplayPanel extends Component {
                     <Card>
                         <Card.Body>
                             <Summary data={ {
+                                sensors: {
+                                    ...this.props.sensors
+                                },
                                 duration: duration,
                                 lastActualDuration: this.state.lastActualDuration 
                                 }} />
@@ -95,12 +97,15 @@ class DisplayPanel extends Component {
                         style={{height: '100%'}}>
                         <Card.Header><strong>STATUS</strong></Card.Header>
                         <Card.Body>
-                                <Status state={status} data={
-                                    { 
-                                        current: this.state.current,
-                                        duration: duration
-                                    }
-                                } />
+                                <Status 
+                                    state={status} 
+                                    data={
+                                        { 
+                                            current: this.state.current,
+                                            duration: duration
+                                        }
+                                    } 
+                                />
                         </Card.Body>
 
                     </Card>
@@ -130,6 +135,11 @@ class DisplayPanel extends Component {
                 ...INIT_TIMER_DATA
             }
         });
+
+        setTimeout(() => {
+            this.props.onFetchSensorData();
+
+        }, 1000);
     }
 
     _addMilliSecond = (ms) => {
@@ -157,7 +167,7 @@ class DisplayPanel extends Component {
                     const deltaTime = convertDurationDataToSeconds(this.state.current) * 1000;
 
                     if (deltaTime >= this.props.duration) {
-                        this.props.onToggleStatus();
+                        this.props.onCl();
                         break;
                     }
                 }
@@ -174,7 +184,9 @@ class DisplayPanel extends Component {
 
 const mapStateToProps = state => {
     return {
+        status:     state.timer.status,
         isrunning:  state.timer.isrunning,
+        sensors:    state.sensors,
         duration:   state.settings.duration
     };
 };
@@ -182,12 +194,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onToggleStatus: () => dispatch(actions.toggleStatus())
+        onFetchSensorData: () => dispatch(actions.fetchSensorData())
     };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DisplayPanel);
-
-
-// --- Heler functions
-const delay = ms => new Promise(res => setTimeout(res, ms));

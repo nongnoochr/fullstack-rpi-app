@@ -7,6 +7,9 @@ export const INIT_TIMER_DATA = {
 }
 
 // ---------------
+export const delay = ms => new Promise(res => setTimeout(res, ms));
+
+// ---------------
 export const getDurationData = (ms) => {
     return updateDurationTime(INIT_TIMER_DATA, ms);
 }

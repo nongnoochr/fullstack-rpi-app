@@ -1,6 +1,4 @@
 import React, {Component, Fragment} from 'react';
-import { connect } from 'react-redux';
-import * as actions from '../../store/actions/index';
 
 import classes from './Status.module.css';
 import Loader from '../UI/Loader/Loader';
@@ -10,6 +8,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import { FiPower } from "react-icons/fi";
 
 import { convertDurationDataToSeconds } from '../../utils/TimeUtils';
+import { APPSTATE } from '../../services/CONSTANT'
 
 class Status extends Component {
 
@@ -22,7 +21,7 @@ class Status extends Component {
         };
         
         switch (this.props.state) {
-            case 'standby':
+            case APPSTATE.STANDBY:
                 statusData = {
                     className: classes.Standby,
                     content: (<Fragment>
@@ -32,7 +31,7 @@ class Status extends Component {
                 }
                 break;
 
-            case 'initialize':
+            case APPSTATE.INITIALIZING:
                 statusData = {
                     className: classes.Initializing,
                     content: (<Fragment>
@@ -42,7 +41,7 @@ class Status extends Component {
                 }
                 break;
 
-            case 'running':
+            case APPSTATE.RUNNING:
                 const timerData = {
                     isrunning:  this.props.isrunning,
                     current:    {
@@ -90,17 +89,7 @@ class Status extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        isrunning: state.timer.isrunning
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        onToggleStatus: (settings) => dispatch(actions.toggleStatus())
-    };
-};
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Status);
+
+export default Status;
