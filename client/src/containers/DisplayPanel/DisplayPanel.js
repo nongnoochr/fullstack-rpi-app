@@ -167,7 +167,7 @@ class DisplayPanel extends Component {
                     const deltaTime = convertDurationDataToSeconds(this.state.current) * 1000;
 
                     if (deltaTime >= this.props.duration) {
-                        this.props.onCl();
+                        this.props.onStopProcess();
                         break;
                     }
                 }
@@ -194,7 +194,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchSensorData: () => dispatch(actions.fetchSensorData())
+        onFetchSensorData: () => dispatch(actions.fetchSensorData()),
+        onStopProcess:   () => dispatch(actions.stopProcess())
     };
 };
 

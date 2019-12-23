@@ -52,7 +52,6 @@ export const runEntireProcess = (settings) => {
 
             // --- Start START Process
             if (dataInit.success) {
-                dispatch(updateStatus(APPSTATE.RUNNING));
 
                 const dataStart = await Service.startProcess();
 
