@@ -1,9 +1,10 @@
+ import BaseService from './BaseService';
  import { delay } from '../utils/TimeUtils';
  
- class LocalService {
+ class LocalService extends BaseService {
 
     static fetchSensorData = async () => {
-        
+
         const temperature   = 25 + (2*Math.random() - 1);
         const humidity      = 40 + (5*Math.random() - 3);
 

@@ -14,6 +14,13 @@ export const updateStatus = (status) => {
     }
 }
 
+export const updateTimerCounter = (counterData) => {
+    return {
+        type:   actionTypes.UPDATE_TIMERCOUNTER,
+        data:   counterData
+    }
+}
+
 export const initProcess = () => {
     return {
         type: actionTypes.INIT_PROCESS,
@@ -24,11 +31,12 @@ export const initProcess = () => {
 export const startProcess = (settings) => {
     return {
         type: actionTypes.START_PROCESS,
+        duration:   settings.duration ? settings.duration : 0,
         success:    true
     }
 }
 
-export const stopProcess = (settings) => {
+export const stopProcess = () => {
     return {
         type: actionTypes.STOP_PROCESS,
         success:    true
@@ -57,6 +65,7 @@ export const runEntireProcess = (settings) => {
 
                 dispatch({
                     type:       actionTypes.START_PROCESS,
+                    duration:   settings.duration ? settings.duration : 0,
                     success:    dataStart.success
                 });
             }

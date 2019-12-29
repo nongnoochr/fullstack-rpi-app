@@ -1,5 +1,7 @@
 // For timer.js
-export const UPDATE_STATUS = 'UPDATE_STATUS';
+export const UPDATE_STATUS  = 'UPDATE_STATUS';
+export const UPDATE_TIMERCOUNTER  = 'UPDATE_TIMERCOUNTER';
+
 export const INIT_PROCESS   = 'INIT_PROCESS';
 export const START_PROCESS   = 'START_PROCESS';
 export const RUN_ENTIREPROCESS   = 'RUN_ENTIREPROCESS';

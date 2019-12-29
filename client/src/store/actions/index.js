@@ -1,4 +1,5 @@
 export {
+    updateTimerCounter,
     runEntireProcess,
     stopProcess
 } from './timer';

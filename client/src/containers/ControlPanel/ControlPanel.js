@@ -32,7 +32,7 @@ class ControlPanel extends Component {
                             <ControlButton 
                                 // clicked={this.props.onToggleStatus} 
                                 state={!this.props.isrunning ? 'start' : 'stop'} 
-                                clicked={!this.props.isrunning ? this.props.onClickStart : this.props.onClickStop}
+                                clicked={!this.props.isrunning ? () => this.props.onClickStart(this.props.settings) : this.props.onClickStop}
                                 disabled={this.props.appstatus===APPSTATE.INITIALIZING}
                                 />
                         </div>
@@ -48,14 +48,15 @@ class ControlPanel extends Component {
 
 const mapStateToProps = state => {
     return {
-        isrunning: state.timer.isrunning,
-        appstatus: state.timer.status
+        isrunning:  state.timer.isrunning,
+        appstatus:  state.timer.status,
+        settings:   state.settings.duration
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onClickStart:   () => dispatch(actions.runEntireProcess()),
+        onClickStart:   (settings) => dispatch(actions.runEntireProcess(settings)),
         onClickStop:   () => dispatch(actions.stopProcess())
     };
 };
