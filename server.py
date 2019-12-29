@@ -6,10 +6,14 @@ import time
 
 # See https://www.pranaysite.com/flask-and-react/
 from flask import Flask, request,  render_template,jsonify
-
-
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__, static_folder="client/build/static", template_folder="client/build")
+
+# To prevent an error from CORS
+# See https://stackoverflow.com/questions/45373124/axios-post-request-to-flask
+CORS(app, resources={r"/*": {"origins": "*"}})
+
 @app.route("/")
 def hello():
     return render_template('index.html')

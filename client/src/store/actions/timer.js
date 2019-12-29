@@ -1,11 +1,8 @@
 import * as actionTypes from './actionTypes';
 
-import LocalService from '../../services/LocalService';
+import Service from './service';
 import { APPSTATE } from '../../services/CONSTANT';
 
-
-// Switch between Local & FullStack mode
-const Service = LocalService;
 
 export const updateStatus = (status) => {
     return {
@@ -37,10 +34,24 @@ export const startProcess = (settings) => {
 }
 
 export const stopProcess = () => {
-    return {
-        type: actionTypes.STOP_PROCESS,
-        success:    true
-    }
+    return dispatch => {
+
+        const run = async () => {
+            const dataStop = await Service.stopProcess();
+
+            dispatch({
+                type:   actionTypes.STOP_PROCESS,
+                success:    dataStop
+            });
+        };
+
+        run();
+
+    };
+    // return {
+    //     type: actionTypes.STOP_PROCESS,
+    //     success:    true
+    // }
 }
 
 export const runEntireProcess = (settings) => {
@@ -50,7 +61,6 @@ export const runEntireProcess = (settings) => {
 
             // --- Start Init Process
             dispatch(updateStatus(APPSTATE.INITIALIZING));
-
             const dataInit = await Service.initProcess();
 
             dispatch({

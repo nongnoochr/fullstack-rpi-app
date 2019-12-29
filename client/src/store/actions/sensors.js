@@ -2,13 +2,7 @@ import * as actionTypes from './actionTypes';
 
 import { delay } from '../../utils/TimeUtils';
 
-import LocalService from '../../services/LocalService'
-import ServerService from '../../services/ServerService'
-
-const devMode = true;
-
-// Switch between Local & FullStack mode
-const Service = devMode ? LocalService : ServerService;
+import Service from './service'
 
 export const fetchSensorData = () => {
 
