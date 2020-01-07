@@ -1,8 +1,7 @@
 # To be removed
 from random import random
 import time
-
-
+from rpi import Controller
 
 # See https://www.pranaysite.com/flask-and-react/
 from flask import Flask, request,  render_template,jsonify
@@ -14,8 +13,15 @@ app = Flask(__name__, static_folder="client/build/static", template_folder="clie
 # See https://stackoverflow.com/questions/45373124/axios-post-request-to-flask
 CORS(app, resources={r"/*": {"origins": "*"}})
 
+# ----------
+# Initialize RPi components
+
+ctrl = Controller()
+
+# ----------
+
 @app.route("/")
-def hello():
+def home():
     return render_template('index.html')
 
 #https://stackoverflow.com/questions/20001229/how-to-get-posted-json-in-flask
@@ -30,45 +36,29 @@ def add_message(uuid):
 
 @app.route('/sensors/data', methods=['GET'])
 def get_sensors_data():
-    temperature = 25 + (2*random() - 1)
-    humidity    = 40 + (5*random() - 3)
-    data = {
-        'temperature':    temperature,
-        'humidity':       humidity
-    }
+
+    data = ctrl.get_sensors_data()
     return jsonify(data)
 
 @app.route('/process/init', methods=['POST'])
 def process_init():
-    print('Init process...')
+    
+    data = ctrl.process_init()
 
-    print('*Wait for 1 second...')
-    time.sleep(1)
-    data = {
-        'success':    True
-    }
     return jsonify(data)
 
 @app.route('/process/start', methods=['POST'])
 def process_start():
-    print('START process...')
+    
+    data = ctrl.process_start()
 
-    print('*Wait for 1 second...')
-    time.sleep(1)
-    data = {
-        'success':    True
-    }
     return jsonify(data)
 
 @app.route('/process/stop', methods=['POST'])
 def process_stop():
-    print('STOP process...')
 
-    print('*Wait for 1 second...')
-    time.sleep(1)
-    data = {
-        'success':    True
-    }
+    data = ctrl.process_stop()
+
     return jsonify(data)
 
 print('Starting Flask!')
