@@ -61,8 +61,6 @@ try:
             data = ctrl.process_init(config=content)
 
         else:
-            # Temporary. To be deleted
-            data = ctrl.process_init(config={'LED1': 1, 'LED2': 1})
 
             print('status data is not provided')
             # data = {"success": False}
