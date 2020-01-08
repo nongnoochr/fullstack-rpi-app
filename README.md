@@ -10,3 +10,9 @@ https://www.devdungeon.com/content/python-virtual-environments-tutorial
 % deactivate
 
 ```
+
+To push from another machine, do
+
+```
+$git push origin develop:master
+```
