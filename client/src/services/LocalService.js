@@ -6,11 +6,11 @@
     static fetchSensorData = async () => {
 
         const temperature   = 25 + (2*Math.random() - 1);
-        const humidity      = 40 + (5*Math.random() - 3);
+        const distance      = 40 + (5*Math.random() - 3);
 
         return {
             temperature:    temperature,
-            humidity:       humidity
+            distance:       distance
         }
     }
 
@@ -42,6 +42,15 @@
         return {
             success: true
         }
+    }
+
+    static setExternalController = async(extCtrlState) => {
+        console.log('SETExternalController process...');
+
+        return {
+            success: true
+        }
+
     }
 
  }

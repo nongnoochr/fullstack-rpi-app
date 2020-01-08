@@ -6,7 +6,8 @@ export {
 
 export {
     updateSettings,
-    resetSettings
+    resetSettings,
+    setExternalController
 } from './settings';
 
 export { fetchSensorData } from './sensors';

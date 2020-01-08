@@ -10,6 +10,8 @@ export const STOP_PROCESS   = 'STOP_PROCESS';
 // For settings.js
 export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
 export const RESET_SETTINGS = 'RESET_SETTINGS';
+export const SET_EXTCTRL = 'SET_EXTCTRL';
+
 
 // For sensors.js
 export const FETCH_SENSORDATA = 'FETCH_SENSORDATA';

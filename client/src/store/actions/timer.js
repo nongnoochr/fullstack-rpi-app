@@ -2,6 +2,7 @@ import * as actionTypes from './actionTypes';
 
 import Service from './service';
 import { APPSTATE } from '../../services/CONSTANT';
+import { SETTINGS_VALUES } from '../../utils/SettingsUtils';
 
 
 export const updateStatus = (status) => {
@@ -26,6 +27,7 @@ export const initProcess = () => {
 }
 
 export const startProcess = (settings) => {
+
     return {
         type: actionTypes.START_PROCESS,
         duration:   settings.duration ? settings.duration : 0,
@@ -61,15 +63,23 @@ export const runEntireProcess = (settings) => {
 
             // --- Start Init Process
             dispatch(updateStatus(APPSTATE.INITIALIZING));
-            const dataInit = await Service.initProcess();
+
+            const dataInit = {
+                [SETTINGS_VALUES.setting1] :     0,
+                [SETTINGS_VALUES.setting2] :     0,
+            }
+
+            settings.settings.forEach(curSetting => dataInit[curSetting] = 1);
+
+            const resInit = await Service.initProcess(dataInit);
 
             dispatch({
                 type:       actionTypes.INIT_PROCESS,
-                success:    dataInit.success
+                success:    resInit.success
             });
 
             // --- Start START Process
-            if (dataInit.success) {
+            if (resInit.success) {
 
                 const dataStart = await Service.startProcess();
 

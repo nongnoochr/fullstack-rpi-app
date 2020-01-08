@@ -54,9 +54,7 @@ class Settings extends Component {
                                         onChange={ (ev) => {
 
                                             const newVal = ev.target.checked;
-                                            this.props.onUpdateSettings({
-                                                externalCtrl: newVal
-                                            });
+                                            this.props.onSetExternalController(newVal);
                                         } }
                                     />
                         </Col>
@@ -165,7 +163,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onUpdateSettings: (settings) => dispatch(actions.updateSettings(settings)),
-        onResetSettings: () => dispatch(actions.resetSettings())
+        onResetSettings: () => dispatch(actions.resetSettings()),
+        onSetExternalController: (state) => dispatch(actions.setExternalController(state))
     };
 };
 

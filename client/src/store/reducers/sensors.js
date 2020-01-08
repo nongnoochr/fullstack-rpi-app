@@ -3,7 +3,7 @@ import { updateObject } from '../utility';
 
 const initData = {
     temperature:    null,
-    humidity:       null
+    distance:       null
 };
 
 const fetchSensorData = (state, action) => {

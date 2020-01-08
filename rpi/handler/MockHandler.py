@@ -1,6 +1,6 @@
 from random import random
 
-from AbstractHandler import AbstractHandler
+from .AbstractHandler import AbstractHandler
 
 class MockHandler(AbstractHandler):
 

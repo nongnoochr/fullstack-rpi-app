@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 
-from AbstractHandler import AbstractHandler
+from .AbstractHandler import AbstractHandler
 
 class RPiHandler(AbstractHandler):
 

@@ -32,15 +32,15 @@ class Summary extends Component {
             
     }
 
-    getHumidityData = () => {
+    getDistanceData = () => {
             
-        if (this.props.data.sensors.humidity) {
+        if (this.props.data.sensors.distance) {
             return (
                 <span>
                     <span>
-                        { this.props.data.sensors.humidity.toFixed(1) }
+                        { this.props.data.sensors.distance.toFixed(1) }
                     </span>
-                    <span>%</span>
+                    <span> cm</span>
                 </span>
                 );
         } else {
@@ -105,8 +105,8 @@ class Summary extends Component {
                     </div>
                     <div>
                         <WiRaindrop />
-                        <label>Humidity:</label> 
-                        {this.getHumidityData()}
+                        <label>Distance:</label> 
+                        {this.getDistanceData()}
                     </div>
                 </Alert>
 

@@ -50,7 +50,7 @@ const mapStateToProps = state => {
     return {
         isrunning:  state.timer.isrunning,
         appstatus:  state.timer.status,
-        settings:   state.settings.duration
+        settings:   state.settings
     };
 };
 

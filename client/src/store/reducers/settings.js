@@ -20,6 +20,20 @@ const updateSettings = (state, action) => {
     });
 };
 
+const setExternalController = (state, action) => {
+
+    if (action.success) {
+        return updateObject(state, {
+            ...action.settings
+        });
+    } else {
+        console.log('Cannot update the external controller in the server');
+        return state;
+
+    }
+};
+
+
 const resetSettings = (state, action) => {
     return updateObject(state, {
         ...initSettings
@@ -34,6 +48,9 @@ const reducer = ( state = initSettings, action ) => {
 
         case actionTypes.RESET_SETTINGS: 
             return resetSettings( state, action );
+
+        case actionTypes.SET_EXTCTRL: 
+            return setExternalController( state, action );
 
         default: return state;
     }

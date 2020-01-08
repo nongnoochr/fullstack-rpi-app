@@ -6,11 +6,11 @@ class BaseService {
 
         return {
            temperature:    null,
-           humidity:       null
+           distance:       null
         }
    }
 
-   static initProcess = async() => {
+   static initProcess = async(data) => {
 
         console.error('initProcess - This method must be implemented');
 
@@ -37,6 +37,15 @@ class BaseService {
        return {
            success: false
        }
+   }
+
+   static setExternalController = async(extCtrlState) => {
+
+    console.error('This method must be implemented');
+
+    return {
+        success: false
+    }
    }
 
 }

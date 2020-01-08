@@ -4,9 +4,9 @@ import time
 # Import Handler class based on whether RPi.GPIO is available
 try:
     import RPi.GPIO
-    import handler.RPiHandler as Handler
+    from .handler.RPiHandler import RPiHandler as Handler
 except (ImportError, RuntimeError):
-    import handler.MockHandler as Handler
+    from .handler.MockHandler import MockHandler as Handler
 
 
 class Controller:
@@ -28,7 +28,6 @@ class Controller:
         dist    = self.__ctrl.getDistanceData()
         data = {
             'temperature':    None,
-            'humidity':       dist,
             'distance':       dist
         }
 

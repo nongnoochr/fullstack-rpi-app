@@ -55,6 +55,8 @@ try:
     def process_init():
         
         content = request.values.to_dict()
+
+        print('content: ', content)
         if (content):    
             data = ctrl.process_init(config=content)
 
