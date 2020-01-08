@@ -20,47 +20,76 @@ ctrl = Controller()
 
 # ----------
 
-@app.route("/")
-def home():
-    return render_template('index.html')
 
-#https://stackoverflow.com/questions/20001229/how-to-get-posted-json-in-flask
-@app.route('/api/add_message/<uuid>', methods=['GET', 'POST'])
-def add_message(uuid):
-    # content = request.json
-    # content = request.get_json(silent=True)
-    # print('content: ', content)
-    # print content['mytext']
-    print('I am here!!')
-    return jsonify({"uuid":uuid})
+try:
+        
+    @app.route("/")
+    def home():
+        return render_template('index.html')
 
-@app.route('/sensors/data', methods=['GET'])
-def get_sensors_data():
+    @app.route('/sensors/data', methods=['GET'])
+    def get_sensors_data():
 
-    data = ctrl.get_sensors_data()
-    return jsonify(data)
+        data = ctrl.get_sensors_data()
+        return jsonify(data)
 
-@app.route('/process/init', methods=['POST'])
-def process_init():
-    
-    data = ctrl.process_init()
+    @app.route('/api/set_extctrl', methods=['GET', 'POST'])
+    def set_extctrl():
 
-    return jsonify(data)
+        content = request.values.to_dict()
+        if (content):
+            try:
+                status = content['status']
+                ctrl.setExternalController(status)
+                success = True
+            except Exception as e:
+                print('The following error occurs: ', e)
+                success = False
+        else:
+            print('status data is not provided')
+            success = False
+        
+        return jsonify({"success":success})
 
-@app.route('/process/start', methods=['POST'])
-def process_start():
-    
-    data = ctrl.process_start()
+    @app.route('/process/init', methods=['GET', 'POST'])
+    def process_init():
+        
+        content = request.values.to_dict()
+        if (content):    
+            data = ctrl.process_init(config=content)
 
-    return jsonify(data)
+        else:
+            # Temporary. To be deleted
+            data = ctrl.process_init(config={'LED1': 1, 'LED2': 1})
 
-@app.route('/process/stop', methods=['POST'])
-def process_stop():
+            print('status data is not provided')
+            # data = {"success": False}
+            data = {"success": True}
+        
+        return jsonify(data)
 
-    data = ctrl.process_stop()
+    @app.route('/process/start', methods=['GET', 'POST'])
+    def process_start():
+        
+        data = ctrl.process_start()
+        data = {"success": True}
 
-    return jsonify(data)
 
-print('Starting Flask!')
-app.debug=True
-app.run(host='0.0.0.0', port=5000)
+        return jsonify(data)
+
+    @app.route('/process/stop', methods=['GET', 'POST'])
+    def process_stop():
+
+        data = ctrl.process_stop()
+        data = {"success": True}
+
+        return jsonify(data)
+
+    print('Starting Flask!')
+    app.debug=True
+    app.run(host='0.0.0.0', port=5000)
+
+finally:
+    print('* Cleanup GPIO before terminating')
+    ctrl.cleanup()
+    print('* Cleanup completed')
