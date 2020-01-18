@@ -1,7 +1,7 @@
 # Frontend - Fullstack Rpi App
 
 
-### Before you start the development mode
+## Before you start the development mode
 Since this app is created for a fullstack rpi app, while developing the app in
 the dev mode, we need to perform one of the followings before runs the app in the dev mode:
 
@@ -44,8 +44,6 @@ $ yarn start
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ## Deployment
-
-### 
 
 Builds the app for production to the `build` folder. The built app will be used and rendered by the server
 
