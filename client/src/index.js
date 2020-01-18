@@ -14,18 +14,22 @@ import timerReducer from './store/reducers/timer';
 import settingsReducer from './store/reducers/settings';
 import sensorsReducer from './store/reducers/sensors';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
+// --- Set up reducers for Redux
 const rootReducer = combineReducers({
     timer:      timerReducer,
     settings:   settingsReducer,
     sensors:    sensorsReducer
 });
 
+// --- For debugging redux in Chrome
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+// --- Use the 'thunk' middle ware for async flow in Redux
 const store = createStore(rootReducer, composeEnhancers(
     applyMiddleware(thunk)
 ));
 
+// --- Render the app
 const app = (
     <Provider store={store}>
         <BrowserRouter>
@@ -34,7 +38,10 @@ const app = (
     </Provider>
     
 );
-ReactDOM.render(app, document.getElementById('root'));
+ReactDOM.render(
+    app, 
+    document.getElementById('root')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

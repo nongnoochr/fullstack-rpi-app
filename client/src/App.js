@@ -24,6 +24,10 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // Set a title of the app
+    document.title = "RPi Machine";
+
+    // Start fenching sensor data
 	  this.props.onFetchSensorData();
   }
 
