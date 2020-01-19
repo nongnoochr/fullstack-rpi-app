@@ -1,6 +1,5 @@
 # Frontend - Fullstack Rpi App
 
-
 ## Before you start the development mode
 Since this app is created for a fullstack rpi app, while developing the app in
 the dev mode, we need to perform one of the followings before runs the app in the dev mode:

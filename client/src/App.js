@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import Layout from './components/Layout/Layout';
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-
 import { connect } from 'react-redux';
 import * as actions from './store/actions/index';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {
   delay,
@@ -24,26 +21,27 @@ class App extends Component {
   }
 
   componentDidMount() {
+
     // Set a title of the app
     document.title = "RPi Machine";
 
     // Start fenching sensor data
-	  this.props.onFetchSensorData();
+    this.props.onFetchSensorData();
   }
 
   componentDidUpdate() {
 
     // If the START button is clicked but the timer has not been started
     if (this.props.isrunning && !this.state.localtimerstatus) {
-	
-		this.setState({localtimerstatus : true})
-		// Start the timer
-		this._startTimer();
-	}
-	
-	if (!this.props.isrunning && this.state.localtimerstatus) {
-		this.setState({localtimerstatus : false})
-	}
+
+      this.setState({ localtimerstatus: true })
+      // Start the timer
+      this._startTimer();
+    }
+
+    if (!this.props.isrunning && this.state.localtimerstatus) {
+      this.setState({ localtimerstatus: false })
+    }
   }
 
 
@@ -59,7 +57,7 @@ class App extends Component {
   _initData = () => {
 
 
-	setTimeout(() => {
+    setTimeout(() => {
       this.props.onFetchSensorData();
 
     }, 1000);
@@ -109,14 +107,14 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    isrunning: 	state.timer.isrunning,
-	duration: 	state.settings.duration,
-	current: 	state.timer.current,
+    isrunning: state.timer.isrunning,
+    duration: state.settings.duration,
+    current: state.timer.current,
 
-	timerstatus:    state.timer.timerstatus,
-    start:          state.timer.start,
-    computedEnd:    state.timer.computedEnd,
-    actualEnd:      state.timer.actualEnd,
+    timerstatus: state.timer.timerstatus,
+    start: state.timer.start,
+    computedEnd: state.timer.computedEnd,
+    actualEnd: state.timer.actualEnd,
     lastActualDuration: state.timer.lastActualDuration,
   };
 };
@@ -124,8 +122,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-	onFetchSensorData: () => dispatch(actions.fetchSensorData()),
-	onUpdateTimerCounter: (data) => dispatch(actions.updateTimerCounter(data)),
+    onFetchSensorData: () => dispatch(actions.fetchSensorData()),
+    onUpdateTimerCounter: (data) => dispatch(actions.updateTimerCounter(data)),
     onStopProcess: () => dispatch(actions.stopProcess())
   };
 };
