@@ -140,6 +140,7 @@ class Settings extends Component {
                                         showTimer: false
                                     })
                                 }}
+                                disabled={this.props.isrunning}
                                 >RESET</Button>
 
                         </fieldset>
